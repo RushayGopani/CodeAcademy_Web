@@ -16,8 +16,13 @@
     "@testing-library/user-event": "^13.5.0",
     "ajv": "^8.17.1",
     "ajv-keywords": "^5.1.0",
+<<<<<<< HEAD
     "axios": "^0.25.0",
     "firebase": "^8.6.2",
+=======
+    "axios": "^1.8.4",
+    "firebase": "^11.6.0",
+>>>>>>> e28cf6b (Added remaining files)
     "firebaseui": "^6.0.0",
     "json-server": "^0.17.0",
     "material-icons": "^1.10.6",
@@ -30,7 +35,11 @@
     "react-razorpay": "^1.1.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
+<<<<<<< HEAD
     "react-scripts": "^5.0.0",
+=======
+    "react-scripts": "^3.0.1",
+>>>>>>> e28cf6b (Added remaining files)
     "react-scroll": "^1.8.4",
     "react-top-loading-bar": "^2.1.0",
     "redux": "^4.1.2",

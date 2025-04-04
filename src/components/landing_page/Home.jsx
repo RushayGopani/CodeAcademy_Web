@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 
 import React, { useState } from "react";
 import styled from "styled-components";
 import HomeBlock3 from "./HomeBlock";
+=======
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+>>>>>>> e28cf6b (Added remaining files)
 import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import "./Home.css";
+<<<<<<< HEAD
 import { Overlay } from "../Login/Overlay";
 import { useDispatch } from "react-redux";
 import { showSide } from "../../store/action";
@@ -25,6 +31,52 @@ const dispatch = useDispatch()
   }
 
   
+=======
+import Login from "../Login/Login";
+import { useDispatch } from "react-redux";
+import { showSide } from "../../store/action";
+import { useSelector } from "react-redux";
+import { auth } from "../utils/Config";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
+function Home() {
+  const ref = React.useRef(null);
+  const {show} = useSelector((state)=>({show:state.show}))
+  const dispatch = useDispatch()
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userPhone, setUserPhone] = useState('');
+
+  useEffect(() => {
+    // Check authentication state
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+        setUserPhone(user.phoneNumber);
+      } else {
+        setIsAuthenticated(false);
+        setUserPhone('');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogin = () => {
+    dispatch(showSide(!show))
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsAuthenticated(false);
+      setUserPhone('');
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('userPhone');
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  }
+>>>>>>> e28cf6b (Added remaining files)
 
   React.useEffect(() => {
     ref.current.continuousStart();
@@ -32,13 +84,19 @@ const dispatch = useDispatch()
   }, []);
 
   return (
+<<<<<<< HEAD
     // <BeforeHomePageStyled>
     <>
     {show?<Overlay />:show}
+=======
+    <>
+    {show && <Login />}
+>>>>>>> e28cf6b (Added remaining files)
       <LoadingBar color="#08BD80" height="4px" ref={ref} />
       <div className="parent_head">
         <div className="header">
           <div className="navbar">
+<<<<<<< HEAD
             {/* <img
               style={{ cursor: "pointer" }}
               src="public\Logo img.jpg"
@@ -49,17 +107,32 @@ const dispatch = useDispatch()
 
 
             <button onClick={handleLogin} className="button">Login</button>
+=======
+            <img src="/Final Logo.jpg" alt="logo" />
+            {isAuthenticated ? (
+              <div className="auth-buttons">
+                <span className="user-phone">{userPhone}</span>
+                <button onClick={handleLogout} className="button">Logout</button>
+              </div>
+            ) : (
+              <button onClick={handleLogin} className="button">Login</button>
+            )}
+>>>>>>> e28cf6b (Added remaining files)
           </div>
           <div className="heading">
             <div className="head">
                Unlocking Solutions 
               <br />
+<<<<<<< HEAD
 
+=======
+>>>>>>> e28cf6b (Added remaining files)
               for Developers
             </div>
             <br />
  
             <div className="course">
+<<<<<<< HEAD
               <div className="course1">
                 <img
                   src="/Sol & Ques image.jpg"
@@ -122,11 +195,46 @@ const dispatch = useDispatch()
                 <Link to="/explore">
                   <button>CodeBot</button>
                 </Link>
+=======
+              <div className="course-card">
+                <div className="card-content">
+                  <h2 className="card-title">Solution</h2>
+                  <h3 className="card-subtitle">For Your Problem</h3>
+                  <Link to="/qa-platform">
+                    <button className="card-button">Start Learning</button>
+                  </Link>
+                </div>
+                <div className="card-image">
+                  <img
+                    src="/Sol & Ques image.jpg"
+                    alt="Solution mascot"
+                    className="mascot-image"
+                  />
+                </div>
+              </div>
+              
+              <div className="course-card">
+                <div className="card-content">
+                  <h2 className="card-title">Can't Find Helper!</h2>
+                  <h3 className="card-subtitle">Don't Worry Your CodeBot is Here!</h3>
+                  <Link to="/chatbot">
+                    <button className="card-button">CodeBot</button>
+                  </Link>
+                </div>
+                <div className="card-image">
+                  <img
+                    src="/ChatBot1.jpg"
+                    alt="CodeBot assistant"
+                    className="bot-image"
+                  />
+                </div>
+>>>>>>> e28cf6b (Added remaining files)
               </div>
             </div>
             <br />
             <br />
             <br />
+<<<<<<< HEAD
             <div className="block3">
               {block3adetails.map((el) => {
                 return <HomeBlock3 {...el} />;
@@ -135,6 +243,9 @@ const dispatch = useDispatch()
             <br />
             <br />
             <br />
+=======
+            
+>>>>>>> e28cf6b (Added remaining files)
             <div className="block4">
               <div className="block41">
                 <div className="block411">
@@ -146,6 +257,7 @@ const dispatch = useDispatch()
                   <br /> anywhere with the CodeAcademy app
                 </div>
                 <div className="block413">
+<<<<<<< HEAD
                   <a href="https://apps.apple.com/in/app/instagram/id389801252">
                     <img
                       src="https://static.uacdn.net/production/_next/static/images/app_store.png?q=75&w=1920"
@@ -156,11 +268,24 @@ const dispatch = useDispatch()
                     <img
                       src="https://static.uacdn.net/production/_next/static/images/play_store.png?q=75&w=1920"
                       alt="playstore"
+=======
+                  <a href="https://www.instagram.com/">
+                    <img
+                      src="https://static.uacdn.net/production/_next/static/images/app_store.png?q=75&w=1920"
+                      alt="Instagram App Store"
+                    />
+                  </a>
+                  <a href="https://www.instagram.com/">
+                    <img
+                      src="https://static.uacdn.net/production/_next/static/images/play_store.png?q=75&w=1920"
+                      alt="Instagram Play Store"
+>>>>>>> e28cf6b (Added remaining files)
                     />
                   </a>
                 </div>
               </div>
               <div className="block42">
+<<<<<<< HEAD
                 {/* <img
                   src="https://static.uacdn.net/production/_next/static/images/newApp.png?q=75&w=640"
                   alt="mobile"
@@ -170,6 +295,10 @@ const dispatch = useDispatch()
              <div className="block5">
                         
                     </div>
+=======
+              </div>
+            </div>
+>>>>>>> e28cf6b (Added remaining files)
           </div>
         </div>
         <Footer />
@@ -178,6 +307,7 @@ const dispatch = useDispatch()
   );
 }
 
+<<<<<<< HEAD
 const block3adetails = [
   {
     id: "b31",
@@ -206,4 +336,6 @@ const block3adetails = [
   //     "One subscription gets you access to all our live and recorded classes to watch from the comfort of any of your devices Get the learning",
   // },
 ]; 
+=======
+>>>>>>> e28cf6b (Added remaining files)
 export default Home;
