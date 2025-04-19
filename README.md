@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-hii
-=======
 # CodeBot Assistant
 
 A chatbot application that uses Google's Gemini AI to provide coding assistance.
@@ -62,4 +59,3 @@ If you encounter issues:
 2. Check the browser console for any error messages
 3. Verify that the Gemini API key is valid and has sufficient quota
 4. Ensure CORS is properly configured if accessing from a different domain
->>>>>>> e28cf6b (Added remaining files)

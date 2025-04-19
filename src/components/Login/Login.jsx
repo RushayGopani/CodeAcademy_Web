@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
 import { auth } from '../utils/Config';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword,
-  RecaptchaVerifier,
-  signInWithPhoneNumber
-} from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { showSide } from '../../store/action';
@@ -30,7 +24,7 @@ const Login = () => {
   };
 
   const setupRecaptcha = () => {
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    window.recaptchaVerifier = new auth.RecaptchaVerifier('recaptcha-container', {
       size: 'invisible',
       callback: () => {
         console.log('reCAPTCHA solved');
@@ -45,9 +39,9 @@ const Login = () => {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        await auth.signInWithEmailAndPassword(email, password);
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await auth.createUserWithEmailAndPassword(email, password);
       }
       navigate('/explore');
     } catch (error) {
@@ -66,7 +60,7 @@ const Login = () => {
       if (!showOtpInput) {
         setupRecaptcha();
         const formattedPhone = `+91${phone}`;
-        const confirmation = await signInWithPhoneNumber(auth, formattedPhone, window.recaptchaVerifier);
+        const confirmation = await auth.signInWithPhoneNumber(formattedPhone, window.recaptchaVerifier);
         setConfirmationResult(confirmation);
         setShowOtpInput(true);
       } else {

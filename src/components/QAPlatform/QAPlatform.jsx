@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './QAPlatform.css';
 
 const QAPlatform = () => {
-  console.log('QAPlatform component rendering');
-
-  useEffect(() => {
-    console.log('QAPlatform component mounted');
-  }, []);
-
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -46,9 +40,10 @@ const QAPlatform = () => {
     const question = {
       id: questions.length + 1,
       ...newQuestion,
+      price: parseFloat(newQuestion.price),
       status: "open",
       author: "Current User",
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString(),
       answers: []
     };
     setQuestions([...questions, question]);
@@ -73,23 +68,52 @@ const QAPlatform = () => {
 
     const updatedQuestions = questions.map(question => {
       if (question.id === answeringQuestion) {
+        // Add the answer to the question
+        const newAnswer = {
+          id: Date.now(),
+          text: answerText,
+          author: "Current User",
+          timestamp: new Date().toLocaleString()
+        };
+        
+        // Update question status and add answer
         return {
           ...question,
-          answers: [...question.answers, {
-            id: Date.now(),
-            text: answerText,
-            author: "Current User",
-            timestamp: new Date().toISOString()
-          }]
+          status: 'solved',
+          answers: [...question.answers, newAnswer]
         };
       }
       return question;
     });
 
+    // Save to localStorage for persistence
+    localStorage.setItem('questions', JSON.stringify(updatedQuestions));
+
+    // Update earnings in localStorage
+    const answeredQuestion = questions.find(q => q.id === answeringQuestion);
+    const currentEarnings = JSON.parse(localStorage.getItem('userEarnings')) || [];
+    const newEarning = {
+      question_id: answeringQuestion,
+      amount: answeredQuestion.price,
+      earned_at: new Date().toISOString(),
+      question_title: answeredQuestion.title
+    };
+    localStorage.setItem('userEarnings', JSON.stringify([...currentEarnings, newEarning]));
+
+    // Update state
     setQuestions(updatedQuestions);
     setAnsweringQuestion(null);
     setAnswerText('');
+    alert('Answer submitted successfully! You earned $' + answeredQuestion.price);
   };
+
+  // Load questions from localStorage on component mount
+  useEffect(() => {
+    const savedQuestions = localStorage.getItem('questions');
+    if (savedQuestions) {
+      setQuestions(JSON.parse(savedQuestions));
+    }
+  }, []);
 
   return (
     <div className="qa-platform">
@@ -166,12 +190,14 @@ const QAPlatform = () => {
               <div className="question-footer">
                 <span className="author">Posted by: {question.author}</span>
                 <span className="timestamp">{question.timestamp}</span>
-                <button 
-                  className="answer-btn"
-                  onClick={() => handleAnswerClick(question.id)}
-                >
-                  Answer Question
-                </button>
+                {question.status === 'open' && (
+                  <button 
+                    className="answer-btn"
+                    onClick={() => handleAnswerClick(question.id)}
+                  >
+                    Answer Question
+                  </button>
+                )}
               </div>
 
               {answeringQuestion === question.id && (
